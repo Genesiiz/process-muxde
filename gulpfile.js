@@ -49,7 +49,7 @@ gulp.task('serve', ['scripts', 'styles'], function() {
    });
    gulp.watch('./build/js/**/*.js', ['scripts']);
    gulp.watch('./build/scss/**/*.scss', ['styles']);
-   gulp.watch('./dest/*.php').on('change', browserSync.reload);
+   gulp.watch('./dest/**/*.php').on('change', browserSync.reload);
 
 });
 
@@ -58,7 +58,7 @@ gulp.task('serve', ['scripts', 'styles'], function() {
 //*** styles ***
 gulp.task('styles', function() {
 
-   return gulp.src('./build/scss/**/*.scss')
+   return gulp.src('./build/scss/styles.scss')
       .pipe(plumber())
       .pipe(sourcemaps.init())
       .pipe(sass().on('error', function(err) {
@@ -67,6 +67,7 @@ gulp.task('styles', function() {
          }).write(err.line + '-- ' + err.message);
          return this.emit('end');
       }))
+      .pipe(autoprefixer())
       .pipe(cssnano())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./dest/css'))
